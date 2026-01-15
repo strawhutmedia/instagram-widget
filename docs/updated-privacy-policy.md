@@ -15,7 +15,7 @@ If you would like us to delete any personal information we have collected about 
 
 - **Email:** contact@strawhutmedia.com
 - **Mail:** Straw Hut Media, 7201 Melrose Ave. Suite 203, Los Angeles, CA 90046
-- **Phone:** (833) 411-4746
+- **Phone:** +1 (323) 553-5305
 
 **What happens when you request deletion:**
 - We will respond to your request within 30 days
@@ -140,6 +140,23 @@ If you are a European resident, you have the right to access the personal inform
 
 ---
 
+## Third-Party Services and Data Collection
+
+We use the following third-party services to operate our website and business. These services may collect or have access to certain personal information as described in their respective privacy policies:
+
+**GO HIGH LEVEL:** We use Go High Level for form submissions and customer relationship management. When you submit a form on our website, your information may be processed through Go High Level.
+
+**GOOGLE ADWORDS:** We use Google AdWords for advertising and conversion tracking. Google may collect information about your interactions with our ads and website through cookies and tracking pixels.
+
+**FACEBOOK & INSTAGRAM:** We use Facebook and Instagram for social media marketing, advertising, and customer engagement. These platforms may collect information about your interactions with our content and ads.
+
+We recommend reviewing the privacy policies of these third-party services to understand how they handle your data:
+- Go High Level: https://www.gohighlevel.com/privacy-policy
+- Google: https://policies.google.com/privacy
+- Meta (Facebook & Instagram): https://www.facebook.com/privacy/policy/
+
+---
+
 ## How Do I Contact Straw Hut Media?
 
 If you would like to access, correct, amend, or delete any personal information we have about you, register a complaint, or simply want more information about our privacy policy, you may contact us:
@@ -151,7 +168,7 @@ Straw Hut Media, LLC
 7201 Melrose Ave. Suite 203
 Los Angeles, CA 90046
 
-**Customer Service Phone:** (833) 411-4746
+**Customer Service Phone:** +1 (323) 553-5305
 Available Monday-Friday from 9am - 5pm PST
 
 ---
