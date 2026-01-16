@@ -103,9 +103,10 @@ const DEMO_POSTS = [
     }
 ];
 
-// Function to fetch Instagram posts using Instagram Basic Display API
+// Function to fetch Instagram posts using Instagram Graph API
 async function fetchInstagramPostsFromAPI() {
     const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
+    const instagramAccountId = process.env.INSTAGRAM_ACCOUNT_ID;
 
     if (!accessToken) {
         console.log('No Instagram access token found. Using demo data.');
@@ -113,11 +114,18 @@ async function fetchInstagramPostsFromAPI() {
     }
 
     try {
+        // Use Instagram Business Account ID if provided, otherwise try 'me' endpoint
+        const endpoint = instagramAccountId
+            ? `https://graph.facebook.com/v18.0/${instagramAccountId}/media`
+            : `https://graph.instagram.com/me/media`;
+
         const response = await fetch(
-            `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,like_count,comments_count&access_token=${accessToken}&limit=12`
+            `${endpoint}?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,like_count,comments_count&access_token=${accessToken}&limit=12`
         );
 
         if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('Instagram API error:', response.status, errorData);
             throw new Error(`Instagram API error: ${response.status}`);
         }
 
@@ -206,10 +214,17 @@ app.listen(PORT, () => {
 
     if (!process.env.INSTAGRAM_ACCESS_TOKEN) {
         console.log('\n⚠️  WARNING: No Instagram access token found!');
-        console.log('   The widget will use demo data until you configure your Instagram access token.');
-        console.log('   See README.md for setup instructions.\n');
+        console.log('   The widget will use demo data until you configure your Instagram API credentials.');
+        console.log('   Required: INSTAGRAM_ACCESS_TOKEN');
+        console.log('   Optional: INSTAGRAM_ACCOUNT_ID (recommended for Business/Creator accounts)');
+        console.log('   See DEVELOPER_INSTRUCTIONS.md for setup instructions.\n');
     } else {
-        console.log('\n✅ Instagram access token configured!\n');
+        console.log('\n✅ Instagram access token configured!');
+        if (process.env.INSTAGRAM_ACCOUNT_ID) {
+            console.log('✅ Instagram Business Account ID configured!\n');
+        } else {
+            console.log('ℹ️  Using default endpoint (consider adding INSTAGRAM_ACCOUNT_ID for Business/Creator accounts)\n');
+        }
     }
 });
 

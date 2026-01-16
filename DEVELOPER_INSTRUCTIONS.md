@@ -10,7 +10,7 @@ This Instagram widget is **100% complete** and ready to deploy. You just need to
 
 ---
 
-## Step 1: Get Instagram API Token (Desktop Only - 10 min)
+## Step 1: Get Instagram API Token (Mobile or Desktop - 10 min)
 
 **Go to:** https://developers.facebook.com/apps
 
@@ -23,29 +23,42 @@ This Instagram widget is **100% complete** and ready to deploy. You just need to
    - Contact Email: ryan@strawhutmedia.com (or your email)
 5. Click **"Create App"**
 
-### B. Add Instagram Basic Display
-1. On the app dashboard, scroll to **"Add products to your app"**
-2. Find **"Instagram Basic Display"** (NOT "Instagram Graph API")
-3. Click **"Set Up"**
-4. Click **"Create New App"** in the Instagram Basic Display section
+### B. Add Instagram Graph API Permission
+1. On the app dashboard, find **"Add more use cases"** or **"Customize your app"**
+2. Look for **"Manage messaging & content on Instagram"**
+3. Click **"Add"** or **"Get Started"**
+4. This will add Instagram Graph API to your app
 
-### C. Configure Settings
-1. In left sidebar: **Instagram Basic Display** → **Basic Display**
-2. Click **"Add or Remove Instagram Testers"**
-3. Add: `strawhut.media` (the Instagram username)
-4. Click **Submit**
+### C. Connect Your Instagram Account
+1. In the app dashboard, go to **App settings** → **Basic**
+2. Scroll down and click **"Add Platform"**
+3. Select **"Website"**
+4. Add your website URL (or use `https://localhost:3000` for testing)
+5. Save changes
 
-### D. Accept Invitation (On Instagram)
-1. Open Instagram app or instagram.com
-2. Go to **Settings** → **Apps and Websites** → **Tester Invites**
-3. **Accept** the invitation from your app
+### D. Get Your Instagram Business Account ID
+1. Go to: https://developers.facebook.com/tools/explorer
+2. Select your app from the dropdown at the top
+3. In the "Get Token" dropdown, select your Facebook Page
+4. Click "Generate Access Token" and grant permissions
+5. In the API query box, enter: `me/accounts`
+6. Click "Submit" - you'll see your Facebook Page ID
+7. Now enter: `YOUR_PAGE_ID?fields=instagram_business_account`
+8. Click "Submit" - copy the Instagram Business Account ID
 
-### E. Generate Token
-1. Back in Facebook Developers: **Instagram Basic Display** → **Basic Display**
-2. Scroll to **"User Token Generator"**
-3. Click **"Generate Token"** next to @strawhut.media
-4. **Copy the long token** (200+ characters)
-5. **Save it** - you'll need it in Step 2
+### E. Generate Instagram Access Token
+1. In Graph API Explorer, make sure your app is selected
+2. Click "Get Token" → Select your Facebook Page
+3. Under "Permissions", add: `instagram_basic`, `pages_read_engagement`, `pages_show_list`
+4. Click "Generate Access Token" and approve all permissions
+5. **Copy the long access token** (200+ characters)
+6. **IMPORTANT:** This token expires in 60 days - you'll need to refresh it
+
+### F. Test Your Token
+1. In Graph API Explorer, with your token active
+2. Enter this query: `YOUR_INSTAGRAM_ACCOUNT_ID/media?fields=id,caption,media_url,permalink,timestamp`
+3. Click "Submit" - you should see your recent Instagram posts
+4. If you see posts, your token works! **Save it** - you'll need it in Step 2
 
 ---
 
@@ -59,6 +72,8 @@ This Instagram widget is **100% complete** and ready to deploy. You just need to
 5. In **Environment Variables**, add:
    - Name: `INSTAGRAM_ACCESS_TOKEN`
    - Value: [paste the token from Step 1E]
+   - Name: `INSTAGRAM_ACCOUNT_ID`
+   - Value: [paste the Instagram Business Account ID from Step 1D]
 6. Click **"Deploy"**
 7. Wait 1-2 minutes
 8. **Copy your deployment URL** (e.g., `https://instagram-widget-xyz.vercel.app`)
@@ -78,8 +93,9 @@ vercel login
 # Deploy
 vercel --prod
 
-# When prompted, add environment variable:
-# INSTAGRAM_ACCESS_TOKEN = [paste your token]
+# When prompted, add environment variables:
+# INSTAGRAM_ACCESS_TOKEN = [paste your access token]
+# INSTAGRAM_ACCOUNT_ID = [paste your Instagram Business Account ID]
 ```
 
 After deployment, you'll get a URL like: `https://instagram-widget-xyz.vercel.app`
@@ -140,14 +156,21 @@ Add this iframe code to your website's footer:
 
 ### Widget shows demo data instead of real posts
 - Check that `INSTAGRAM_ACCESS_TOKEN` is set in Vercel environment variables
+- Check that `INSTAGRAM_ACCOUNT_ID` is set correctly
 - Verify the token hasn't expired (tokens last 60 days)
 - Check Vercel logs for API errors
+- Test your token in Graph API Explorer
 
 ### Token expired error
 - Instagram tokens expire after 60 days
-- Go back to Facebook Developers → Instagram Basic Display → User Token Generator
-- Generate a new token
-- Update the token in Vercel's environment variables
+- Go to Facebook Graph API Explorer: https://developers.facebook.com/tools/explorer
+- Select your app and generate a new token with required permissions
+- Update both environment variables in Vercel's settings
+
+### API Error "Unsupported get request"
+- Make sure you're using your Instagram Business Account ID (not personal account)
+- Verify permissions include: `instagram_basic`, `pages_read_engagement`, `pages_show_list`
+- Confirm your Instagram account is connected to a Facebook Page
 
 ### Posts not updating
 - Widget automatically refreshes every hour
@@ -163,6 +186,7 @@ Add this iframe code to your website's footer:
 heroku create strawhut-instagram-widget
 git push heroku main
 heroku config:set INSTAGRAM_ACCESS_TOKEN=your_token_here
+heroku config:set INSTAGRAM_ACCOUNT_ID=your_account_id_here
 ```
 
 ### Railway
@@ -171,7 +195,7 @@ npm install -g @railway/cli
 railway login
 railway init
 railway up
-# Add INSTAGRAM_ACCESS_TOKEN in Railway dashboard
+# Add INSTAGRAM_ACCESS_TOKEN and INSTAGRAM_ACCOUNT_ID in Railway dashboard
 ```
 
 ---
